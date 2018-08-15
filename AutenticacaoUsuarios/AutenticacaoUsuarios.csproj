@@ -139,6 +139,7 @@
     <Compile Include="Models\UsuariosContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup1.cs" />
+    <Compile Include="Utils\Hash.cs" />
     <Compile Include="ViewModels\CadastroUsuarioViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

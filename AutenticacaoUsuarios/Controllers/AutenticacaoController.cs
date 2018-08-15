@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutenticacaoUsuarios.Models;
 using AutenticacaoUsuarios.ViewModels;
+using AutenticacaoUsuarios.Utils;
 
 namespace AutenticacaoUsuarios.Controllers
 {
@@ -30,7 +31,7 @@ namespace AutenticacaoUsuarios.Controllers
             {
                 Nome = viewmodel.Nome,
                 Login = viewmodel.Login,
-                Senha = viewmodel.Senha
+                Senha = Hash.GerarHash(viewmodel.Senha)
              };
 
             db.usuarios.Add(novoUsuario);
