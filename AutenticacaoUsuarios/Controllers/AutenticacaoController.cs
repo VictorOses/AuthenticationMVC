@@ -27,6 +27,12 @@ namespace AutenticacaoUsuarios.Controllers
                 return View(viewmodel);
             }
 
+            if(db.usuarios.Count(u => u.Login == viewmodel.Login) > 0)
+            {
+                ModelState.AddModelError("Login", "Esse login já está sendo utilizado");
+                return View(viewmodel);
+            }
+
             Usuario novoUsuario = new Usuario
             {
                 Nome = viewmodel.Nome,
