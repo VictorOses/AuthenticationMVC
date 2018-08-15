@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace AutenticacaoUsuarios.ViewModels
 {
     public class LoginViewModel
     {
+        [HiddenInput]
         public string UrlRetorno { get; set; }
 
         [Required(ErrorMessage = "Informe seu login")]

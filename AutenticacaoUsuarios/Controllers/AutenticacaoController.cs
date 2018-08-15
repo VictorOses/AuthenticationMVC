@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutenticacaoUsuarios.Models;
 using AutenticacaoUsuarios.ViewModels;
 using AutenticacaoUsuarios.Utils;
+using System.Security.Claims;
 
 namespace AutenticacaoUsuarios.Controllers
 {
@@ -54,6 +55,44 @@ namespace AutenticacaoUsuarios.Controllers
             };
 
             return View(viewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginViewModel viewmodel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(viewmodel);
+            }
+
+            var usuario = db.usuarios.FirstOrDefault(u => u.Login == viewmodel.Login);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("Login", "Login incorreto");
+                return View(viewmodel);
+            }
+
+            if(usuario.Senha != Hash.GerarHash(viewmodel.Senha))
+            {
+                ModelState.AddModelError("Senha", "Senha incorreta");
+                return View(viewmodel);
+            }
+
+            //DEFINIR IDENTIDADE DO USUARIO
+            var identity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, usuario.Nome),
+                new Claim("Login", usuario.Login)
+            }, "ApplicationCookie");
+
+            //FAZER O LOGIN NO OWIN   
+            Request.GetOwinContext().Authentication.SignIn(identity);
+
+            if (!String.IsNullOrWhiteSpace(viewmodel.UrlRetorno) || Url.IsLocalUrl(viewmodel.UrlRetorno))
+                return Redirect(viewmodel.UrlRetorno);
+            else
+                return RedirectToAction("Index", "Painel");
         }
 
     }
