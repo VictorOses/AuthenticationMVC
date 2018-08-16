@@ -28,7 +28,7 @@ namespace AutenticacaoUsuarios.Controllers
                 return View(viewmodel);
             }
 
-            if(db.usuarios.Count(u => u.Login == viewmodel.Login) > 0)
+            if (db.usuarios.Count(u => u.Login == viewmodel.Login) > 0)
             {
                 ModelState.AddModelError("Login", "Esse login já está sendo utilizado");
                 return View(viewmodel);
@@ -39,7 +39,7 @@ namespace AutenticacaoUsuarios.Controllers
                 Nome = viewmodel.Nome,
                 Login = viewmodel.Login,
                 Senha = Hash.GerarHash(viewmodel.Senha)
-             };
+            };
 
             db.usuarios.Add(novoUsuario);
             db.SaveChanges();
@@ -60,7 +60,7 @@ namespace AutenticacaoUsuarios.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel viewmodel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(viewmodel);
             }
@@ -73,13 +73,13 @@ namespace AutenticacaoUsuarios.Controllers
                 return View(viewmodel);
             }
 
-            if(usuario.Senha != Hash.GerarHash(viewmodel.Senha))
+            if (usuario.Senha != Hash.GerarHash(viewmodel.Senha))
             {
                 ModelState.AddModelError("Senha", "Senha incorreta");
                 return View(viewmodel);
             }
 
-            //DEFINIR IDENTIDADE DO USUARIO
+            //DEFINIR IDENTIDADE DO USUARIO ATRAVÉS DO CLAIMS
             var identity = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Name, usuario.Nome),
@@ -93,6 +93,12 @@ namespace AutenticacaoUsuarios.Controllers
                 return Redirect(viewmodel.UrlRetorno);
             else
                 return RedirectToAction("Index", "Painel");
+        }
+
+        public ActionResult Logout()
+        {
+            Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");
+            return RedirectToAction("Index", "Home");
         }
 
     }

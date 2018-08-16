@@ -157,6 +157,7 @@
     <Content Include="Views\Autenticacao\Cadastrar.cshtml" />
     <Content Include="Views\Autenticacao\Login.cshtml" />
     <Content Include="Views\Painel\Index.cshtml" />
+    <Content Include="Views\Painel\Mensagens.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
