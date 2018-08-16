@@ -18,13 +18,13 @@ namespace AutenticacaoUsuarios.ViewModels
 
         [Required(ErrorMessage = "Informe sua senha")]
         [DataType(DataType.Password)]
-        [MaxLength(6, ErrorMessage = "Sua senha deve ter no minímo 6 caracteres")]
+        [MaxLength(6, ErrorMessage = "Sua senha deve ter pelo menos 6 caracteres")]
         public string Senha { get; set; }
 
         [Required(ErrorMessage = "Confirme sua senha")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar senha")]
-        [MaxLength(6, ErrorMessage = "Sua senha deve ter no minímo 6 caracteres")]
+        [MaxLength(6, ErrorMessage = "Sua senha deve ter pelo menos 6 caracteres")]
         [Compare(nameof(Senha), ErrorMessage = "A senha não corresponde ao que já foi informado")]
         public string ConfirmacaoSenha { get; set; }
     }
