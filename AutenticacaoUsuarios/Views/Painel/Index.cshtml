@@ -5,3 +5,9 @@
 
 <h2>Index</h2>
 
+@if (TempData["Mensagem"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensagem"]
+    </div>
+}
